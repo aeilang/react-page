@@ -6,13 +6,12 @@ import {
   useFetcher,
   useLoaderData,
 } from "react-router-dom";
-import { Contact, getContact, updateContact } from "../contacts";
+import { Contact2, getContact, updateContact } from "../contacts";
 import {
   QueryClient,
   queryOptions,
   useSuspenseQuery,
 } from "@tanstack/react-query";
-
 
 export const contactDetailQuery = (id: string) =>
   queryOptions({
@@ -109,7 +108,7 @@ export default function Contact() {
   );
 }
 
-function Favorite({ contact }: { contact: Contact }) {
+function Favorite({ contact }: { contact: Contact2 }) {
   const fetcher = useFetcher({ key: `contact:${contact.id}` });
   let favorite = contact.favorite;
   if (fetcher.formData) {

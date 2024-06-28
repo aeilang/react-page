@@ -4,36 +4,36 @@ import {
   redirect,
   useNavigate,
   ActionFunctionArgs,
-} from 'react-router-dom'
+} from "react-router-dom";
 
-import { Contact, updateContact } from '../contacts'
-import { QueryClient, useSuspenseQuery } from '@tanstack/react-query'
-import { contactDetailQuery, loader } from './contact'
+import { Contact2, updateContact } from "../contacts";
+import { QueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { contactDetailQuery, loader } from "./contact";
 
 export const action =
   (queryClient: QueryClient) =>
   async ({ request, params }: ActionFunctionArgs) => {
-    const formData = await request.formData()
-    const updates = Object.fromEntries(formData)
+    const formData = await request.formData();
+    const updates = Object.fromEntries(formData);
     if (!params.contactId) {
-      throw new Error('No contact ID provided')
+      throw new Error("No contact ID provided");
     }
-    await updateContact(params.contactId, updates)
-    queryClient.invalidateQueries({ queryKey: ['contacts'] })
-    return redirect(`/contacts/${params.contactId}`)
-  }
+    await updateContact(params.contactId, updates);
+    queryClient.invalidateQueries({ queryKey: ["contacts"] });
+    return redirect(`/contacts/${params.contactId}`);
+  };
 
 export default function Edit() {
   const { contactId } = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
-  >
-  const { data: contact } = useSuspenseQuery(contactDetailQuery(contactId))
+  >;
+  const { data: contact } = useSuspenseQuery(contactDetailQuery(contactId));
 
-  return <ContactForm contact={contact} />
+  return <ContactForm contact={contact} />;
 }
 
-export function ContactForm({ contact }: { contact?: Contact }) {
-  const navigate = useNavigate()
+export function ContactForm({ contact }: { contact?: Contact2 }) {
+  const navigate = useNavigate();
 
   return (
     <Form method="post" id="contact-form">
@@ -81,12 +81,12 @@ export function ContactForm({ contact }: { contact?: Contact }) {
         <button
           type="button"
           onClick={() => {
-            navigate(-1)
+            navigate(-1);
           }}
         >
           Cancel
         </button>
       </p>
     </Form>
-  )
+  );
 }
