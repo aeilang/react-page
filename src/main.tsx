@@ -27,7 +27,7 @@ const queryClient = new QueryClient({
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/react-page",
     element: <Root />,
     errorElement: <ErrorPage />,
     loader: rootLoader(queryClient),
