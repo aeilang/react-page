@@ -25,46 +25,51 @@ const queryClient = new QueryClient({
   },
 });
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Root />,
+      errorElement: <ErrorPage />,
+      loader: rootLoader(queryClient),
+      children: [
+        {
+          index: true,
+          element: <Index />,
+        },
+        {
+          path: "contacts/new",
+          element: <NewContact />,
+          action: newAction(queryClient),
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "contacts/:contactId",
+          element: <Contact />,
+          loader: contactLoader(queryClient),
+          action: contactAction(queryClient),
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "contacts/:contactId/edit",
+          element: <EditContact />,
+          loader: contactLoader(queryClient),
+          action: editAction(queryClient),
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "contacts/:contactId/destroy",
+          element: <EditContact />,
+          action: destroyAction(queryClient),
+          errorElement: <ErrorPage />,
+        },
+      ],
+    },
+  ],
   {
-    path: "/react-page",
-    element: <Root />,
-    errorElement: <ErrorPage />,
-    loader: rootLoader(queryClient),
-    children: [
-      {
-        index: true,
-        element: <Index />,
-      },
-      {
-        path: "contacts/new",
-        element: <NewContact />,
-        action: newAction(queryClient),
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "contacts/:contactId",
-        element: <Contact />,
-        loader: contactLoader(queryClient),
-        action: contactAction(queryClient),
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "contacts/:contactId/edit",
-        element: <EditContact />,
-        loader: contactLoader(queryClient),
-        action: editAction(queryClient),
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "contacts/:contactId/destroy",
-        element: <EditContact />,
-        action: destroyAction(queryClient),
-        errorElement: <ErrorPage />,
-      },
-    ],
-  },
-]);
+    basename: "/react-page",
+  }
+);
 
 const rootElement = document.getElementById("root");
 ReactDOM.createRoot(rootElement!).render(
